@@ -1,0 +1,29 @@
+[Unit]
+<% if @unit_description -%>
+Description=<%= @unit_description %>
+<% end -%>
+
+[Service]
+<% if @service_timeoutstartsec -%>
+TimeoutStartSec=<%= @service_timeoutstartsec %>
+<% end -%>
+<% if @workingdirectory -%>
+WorkingDirectory=<%= @workingdirectory %>
+<% end -%>
+<% if @user -%>
+User=<%= @user %>
+<% end -%>
+<% if @group -%>
+Group=<%= @group %>
+<% end -%>
+<% if @service_execstart -%>
+ExecStart=<%= @service_execstart %>
+<% end -%>
+<% if @service_execstop -%>
+ExecStop=<%= @service_execstop %>
+<% end -%>
+
+[Install]
+<% if @install_wantedby -%>
+WantedBy=<%= @install_wantedby %>
+<% end -%>
