@@ -16,6 +16,11 @@ User=<%= @user %>
 <% if @group -%>
 Group=<%= @group %>
 <% end -%>
+<% if @service_execstartpre -%>
+<% @service_execstartpre.each do |e| -%>
+ExecStartPre=<%= e %>
+<% end -%>
+<% end -%>
 <% if @service_execstart -%>
 ExecStart=<%= @service_execstart %>
 <% end -%>

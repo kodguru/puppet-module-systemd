@@ -9,6 +9,7 @@ define systemd::unit (
   $user                    = undef,
   $group                   = undef,
   $service_timeoutstartsec = undef,
+  $service_execstartpre    = undef,
   $service_execstart       = undef,
   $service_execstop        = undef,
   $install_wantedby        = undef,
@@ -33,6 +34,9 @@ define systemd::unit (
   }
   if $service_timeoutstartsec != undef {
     validate_integer($service_timeoutstartsec)
+  }
+  if $service_execstartpre != undef {
+    validate_array($service_execstartpre)
   }
   if $service_execstart != undef {
     validate_string($service_execstart)
