@@ -2,6 +2,15 @@
 <% if @unit_description -%>
 Description=<%= @unit_description %>
 <% end -%>
+<% if @unit_after -%>
+After=<%= @unit_after %>
+<% end -%>
+<% if @unit_before -%>
+Before=<%= @unit_before %>
+<% end -%>
+<% if @unit_requires -%>
+Requires=<%= @unit_requires %>
+<% end -%>
 
 [Service]
 <% if @service_timeoutstartsec -%>
@@ -9,6 +18,9 @@ TimeoutStartSec=<%= @service_timeoutstartsec %>
 <% end -%>
 <% if @workingdirectory -%>
 WorkingDirectory=<%= @workingdirectory %>
+<% end -%>
+<% if @environment -%>
+Environment="<%= @environment %>"
 <% end -%>
 <% if @user -%>
 User=<%= @user %>

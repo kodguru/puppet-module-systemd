@@ -4,10 +4,14 @@
 define systemd::unit (
   $ensure                  = 'present',
   $systemd_path            = '/etc/systemd/system',
+  $unit_after              = undef,
+  $unit_before             = undef,
   $unit_description        = undef,
-  $workingdirectory        = undef,
-  $user                    = undef,
+  $unit_requires           = undef,
+  $environment             = undef,
   $group                   = undef,
+  $user                    = undef,
+  $workingdirectory        = undef,
   $service_timeoutstartsec = undef,
   $service_execstartpre    = undef,
   $service_execstart       = undef,
@@ -20,17 +24,26 @@ define systemd::unit (
 
   validate_absolute_path($systemd_path)
 
+  if $unit_after != undef {
+    validate_string($unit_after)
+  }
+  if $unit_before != undef {
+    validate_string($unit_before)
+  }
   if $unit_description != undef {
     validate_string($unit_description)
   }
-  if $workingdirectory != undef {
-    validate_string($workingdirectory)
+  if $environment != undef {
+    validate_string($environment)
+  }
+  if $group != undef {
+    validate_string($group)
   }
   if $user != undef {
     validate_string($user)
   }
-  if $group != undef {
-    validate_string($group)
+  if $workingdirectory != undef {
+    validate_string($workingdirectory)
   }
   if $service_timeoutstartsec != undef {
     validate_integer($service_timeoutstartsec)
