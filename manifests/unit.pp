@@ -70,11 +70,6 @@ define systemd::unit (
     content => template('systemd/systemd_service.erb'),
   }
 
-  exec { 'systemd_reload':
-    command     => '/usr/bin/systemctl daemon-reload',
-#    refreshonly => true,
-  }
-
   service { "${name}_service":
     ensure   => running,
     name     => $name,
