@@ -66,7 +66,7 @@ define systemd::unit (
     path    => "${systemd_path}/${name}.service",
     owner   => 'root',
     group   => 'root',
-    mode    => '0744',
+    mode    => '0644',
     content => template('systemd/systemd_service.erb'),
   }
 
