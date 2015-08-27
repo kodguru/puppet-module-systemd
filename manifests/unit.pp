@@ -77,5 +77,5 @@ define systemd::unit (
     provider => 'systemd',
   }
 
-  File["${name}_file"] -> Exec['systemd_reload'] -> Service["${name}_service"]
+  File["${name}_file"] ~> Exec['systemd_reload'] -> Service["${name}_service"]
 }
