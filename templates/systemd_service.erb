@@ -13,8 +13,15 @@ Requires=<%= @unit_requires %>
 <% end -%>
 
 [Service]
+Type=<%= @service_type %>
 <% if @service_timeoutstartsec -%>
 TimeoutStartSec=<%= @service_timeoutstartsec %>
+<% end -%>
+<% if @service_restart -%>
+Restart=<% @service_restart %>
+<% end -%>
+<% if @service_restartsec -%>
+RestartSec=<% @service_restartsec %>
 <% end -%>
 <% if @workingdirectory -%>
 WorkingDirectory=<%= @workingdirectory %>
