@@ -12,7 +12,7 @@ define systemd::unit (
   $group                   = undef,
   $user                    = undef,
   $workingdirectory        = undef,
-  $service_type            = 'simple'
+  $service_type            = 'simple',
   $service_timeoutstartsec = undef,
   $service_restart         = undef,
   $service_restartsec      = undef,
@@ -48,7 +48,7 @@ define systemd::unit (
   if $workingdirectory != undef {
     validate_string($workingdirectory)
   }
-  validate_re($ensure, [ '^simple$', '^forking$', '^oneshot$', '^dbus$', '^notify$', '^idle$' ],
+  validate_re($service_type, [ '^simple$', '^forking$', '^oneshot$', '^dbus$', '^notify$', '^idle$' ],
     "systemd::unit::${name}::ensure is invalid and does not match the regex.")
   if $service_timeoutstartsec != undef {
     validate_string($service_timeoutstartsec)
