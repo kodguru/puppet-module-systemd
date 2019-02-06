@@ -22,6 +22,8 @@ define systemd::unit (
   $install_wantedby        = undef,
 ) {
 
+  include ::systemd
+
   validate_re($ensure, [ '^present$', '^absent$' ],
     "systemd::unit::${name}::ensure is invalid and does not match the regex.")
 
