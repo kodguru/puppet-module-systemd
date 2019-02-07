@@ -53,7 +53,12 @@ define systemd::unit (
   validate_re($service_type, [ '^simple$', '^forking$', '^oneshot$', '^dbus$', '^notify$', '^idle$' ],
     "systemd::unit::${name}::ensure is invalid and does not match the regex.")
   if $service_timeoutstartsec != undef {
-    validate_string($service_timeoutstartsec)
+    if is_string($service_timeoutstartsec) {
+      $service_timeoutstartsec_real =  0 + $service_timeoutstartsec # str2integer
+    } else {
+      $service_timeoutstartsec_real = $service_timeoutstartsec
+    validate_integer($service_timeoutstartsec_real)
+    }
   }
   if $service_restart != undef {
     validate_string($service_restart)
