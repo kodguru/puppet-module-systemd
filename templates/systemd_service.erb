@@ -18,10 +18,10 @@ Type=<%= @service_type %>
 TimeoutStartSec=<%= @service_timeoutstartsec_real %>
 <% end -%>
 <% if @service_restart -%>
-Restart=<% @service_restart %>
+Restart=<%= @service_restart %>
 <% end -%>
-<% if @service_restartsec -%>
-RestartSec=<% @service_restartsec %>
+<% if @service_restartsec_real -%>
+RestartSec=<%= @service_restartsec_real %>
 <% end -%>
 <% if @workingdirectory -%>
 WorkingDirectory=<%= @workingdirectory %>
