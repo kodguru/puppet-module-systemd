@@ -24,59 +24,82 @@ define systemd::unit (
 
   include ::systemd
 
-  validate_re($ensure, [ '^present$', '^absent$' ],
-    "systemd::unit::${name}::ensure is invalid and does not match the regex.")
+  if is_string($ensure) {
+    validate_re($ensure, [ '^present$', '^absent$' ],
+      "systemd::unit::${name}::ensure does not match the regex.")
+  } else {
+    fail("systemd::unit::${name}::ensure is not a string.")
+  }
 
   validate_absolute_path($systemd_path)
 
-  if $unit_after != undef {
-    validate_string($unit_after)
+  if $unit_after != undef and is_string($unit_after) == false {
+    fail("systemd::${name}::unit::unit_after is not a string")
   }
-  if $unit_before != undef {
-    validate_string($unit_before)
+  if $unit_before != undef and is_string($unit_before) == false {
+    fail("systemd::${name}::unit::unit_before is not a string")
   }
-  if $unit_description != undef {
-    validate_string($unit_description)
+  if $unit_description != undef and is_string($unit_description) == false {
+    fail("systemd::${name}::unit::unit_description is not a string")
   }
-  if $environment != undef {
-    validate_string($environment)
+  if $environment != undef and is_string($environment) == false {
+    fail("systemd::${name}::unit::environment is not a string")
   }
-  if $group != undef {
-    validate_string($group)
+  if $group != undef and is_string($group) == false {
+    fail("systemd::${name}::unit::group is not a string")
   }
-  if $user != undef {
-    validate_string($user)
+  if $user != undef and is_string($user) == false {
+    fail("systemd::${name}::unit::user is not a string")
   }
-  if $workingdirectory != undef {
-    validate_string($workingdirectory)
+  if $service_restart != undef and is_string($service_restart) == false {
+    fail("systemd::${name}::unit::restart is not a string")
   }
-  validate_re($service_type, [ '^simple$', '^forking$', '^oneshot$', '^dbus$', '^notify$', '^idle$' ],
-    "systemd::unit::${name}::ensure is invalid and does not match the regex.")
+  if $service_execstart != undef and is_string($service_execstart) == false {
+    fail("systemd::${name}::unit::service_execstart is not a string")
+  }
+  if $service_execstop != undef and is_string($service_execstop) == false {
+    fail("systemd::${name}::unit::service_execstop is not a string")
+  }
+  if $install_wantedby != undef and is_string($install_wantedby) == false {
+    fail("systemd::${name}::unit::install_wantedby is not a string")
+  }
+  if $workingdirectory != undef and is_string($workingdirectory) == false {
+    fail("systemd::${name}::unit::workingdirectory is not a string")
+  }
+
+  if $service_execstartpre != undef and is_array($service_execstartpre) == false {
+    fail("systemd::${name}::unit::service_execstartpre is not an Array")
+  }
+
+  if is_string($service_type) {
+    validate_re($service_type, [ '^simple$', '^forking$', '^oneshot$', '^dbus$', '^notify$', '^idle$' ],
+      "systemd::unit::${name}::ensure does not match the regex.")
+  } else {
+    fail("systemd::unit::${name}::ensure is not a string.")
+  }
+
   if $service_timeoutstartsec != undef {
     if is_string($service_timeoutstartsec) {
-      $service_timeoutstartsec_real =  0 + $service_timeoutstartsec # str2integer
-    } else {
+      validate_re($service_timeoutstartsec, [ '^infinity$', '(([0-9]+h(our)?)?([0-9]+m(in)?)?([0-9]+s(ec)?([0-9]+ms)?)?)' ],
+        "systemd::unit::${name}::service_timeoutstartsec must match either '^infinity$' or '(([0-9]+h(our)?)?([0-9]+m(in)?)?([0-9]+s(ec)?([0-9]+ms)?)?)'")
       $service_timeoutstartsec_real = $service_timeoutstartsec
-    validate_integer($service_timeoutstartsec_real)
+    } elsif is_integer($service_timeoutstartsec) {
+      $service_timeoutstartsec_real = $service_timeoutstartsec
+    } else {
+      fail("system::unit::${name}::service_timeoutstartsec must either be a string or a integer")
     }
   }
-  if $service_restart != undef {
-    validate_string($service_restart)
-  }
+
   if $service_restartsec != undef {
-    validate_string($service_restartsec)
-  }
-  if $service_execstartpre != undef {
-    validate_array($service_execstartpre)
-  }
-  if $service_execstart != undef {
-    validate_string($service_execstart)
-  }
-  if $service_execstop != undef {
-    validate_string($service_execstop)
-  }
-  if $install_wantedby != undef {
-    validate_string($install_wantedby)
+    if is_string($service_restartsec) {
+      validate_re($service_restartsec, [ '^infinity$', '(([0-9]+h(our)?)?([0-9]+m(in)?)?([0-9]+s(ec)?([0-9]+ms)?)?)' ],
+        "systemd::unit::${name}::service_restartsec must match either '^infinity$' or '(([0-9]+h(our)?)?([0-9]+m(in)?)?([0-9]+s(ec)?([0-9]+ms)?)?)'")
+      $service_restartsec_real = $service_restartsec
+    } elsif is_integer($service_restartsec) {
+      $service_restartsec_real = $service_restartsec
+    } else {
+      fail("system::unit::${name}::service_restartsec must either be a string or a integer")
+    }
   }
 
   file { "${name}_file":
