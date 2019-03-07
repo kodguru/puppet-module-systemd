@@ -2,6 +2,8 @@
 
 This module manages SystemD services files
 
+[![Build Status](https://api.travis-ci.org/kodguru/puppet-module-systemd.png)](https://travis-ci.org/kodguru/puppet-module-systemd)
+
 
 ## Comptability
 
