@@ -9,8 +9,9 @@ describe 'systemd' do
     it { should have_systemd__unit_resource_count(0) }
 
     it { should contain_exec('systemd_reload').with({
-      'command'     => '/usr/bin/systemctl daemon-reload',
+      'command'     => 'systemctl daemon-reload',
       'refreshonly' => true,
+      'path'        => '/bin:/usr/bin:/usr/local/bin',
     })}
   end
 
