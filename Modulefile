@@ -1,5 +1,5 @@
 name 'juliengk-docker'
-version 'v0.2.1'
+version 'v0.2.2'
 source 'git://github.com/juliengk/puppet-module-systemd.git'
 author 'juliengk'
 license 'Apache License, Version 2.0'
